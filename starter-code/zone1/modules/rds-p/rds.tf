@@ -46,6 +46,7 @@ resource "aws_rds_cluster" "udacity_cluster" {
   engine_version           = "5.6.mysql_aurora.1.19.1" 
   skip_final_snapshot      = true
   storage_encrypted        = false
+  backup_retention_period  = 5
   depends_on = [aws_rds_cluster_parameter_group.cluster_pg]
 }
 
@@ -54,11 +55,11 @@ output "db_cluster_arn" {
 }
 
 output "db_instance_arn" {
-  value = aws_rds_cluster_instance.udacity_instance[0].arn
+  value = aws_rds_cluster_instance.udacity_instance[1].arn
 }
 
 resource "aws_rds_cluster_instance" "udacity_instance" {
-  count                = 1
+  count                = 2
   identifier           = "udacity-db-instance-${count.index}"
   cluster_identifier   = aws_rds_cluster.udacity_cluster.id
   instance_class       = "db.t2.small"

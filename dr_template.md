@@ -1,8 +1,8 @@
 # Infrastructure
 
 ## AWS Zones
-us-east-2
-us-west-2
+Primary: us-east-2
+DR: us-west-1
 
 ## Servers and Clusters
 
@@ -26,12 +26,12 @@ More detailed descriptions of each asset identified above.
 
 ## DR Plan
 ### Pre-Steps:
-* Download terraform repo
-* Have credentials to AWS account with proper permissions
+
+* Ensure application is running in us-west-1 with a load balancer in front of the application
+* Ensure database replication lag in us-west-1 is 0.
+* Ensure the application in us-west-1 is pointing to the RDS in us-west-1
 
 ## Steps:
 
-* Run terraform to create cluster, ec2 instance, and rds in new region.
-* Modify prometheus config to point to new ip of ec2 instance
-* Install prometheus
-* Create monitoring dashboards in grafana
+* Promote the replica database in us-west-2 to be read/write instance
+* Change the DNS destination from the load balancer in us-east-2 to the load balancer in us-west-1

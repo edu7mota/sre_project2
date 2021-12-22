@@ -1,5 +1,5 @@
-output "aws_autoscaling_group" {
-   value = aws_autoscaling_group.ubuntu
+output "aws_instance" {
+   value = aws_instance.ubuntu
  }
 
  output "ec2_sg" {
